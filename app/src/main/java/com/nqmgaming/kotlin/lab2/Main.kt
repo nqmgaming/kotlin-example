@@ -147,7 +147,7 @@ private fun addStudent(students: MutableList<Student>) {
         age
     )
     students.add(student)
-    println("Thêm sinh viên thành công")
+    printSuccess(Messages.ADD_STUDENT_SUCCESS)
 }
 
 private fun editStudent(students: MutableList<Student>) {
@@ -164,7 +164,7 @@ private fun editStudent(students: MutableList<Student>) {
         student.isGraduated = readln() == "y"
         println("Tuổi cũ ${student.age}:")
         student.age = validateAge()
-        println("Sửa thông tin sinh viên thành công")
+        printSuccess(Messages.EDIT_STUDENT_SUCCESS)
     } else {
         printErr(Messages.STUDENT_NOT_FOUND)
     }
@@ -176,7 +176,7 @@ private fun deleteStudent(students: MutableList<Student>) {
     val student = students.find { it.studentId == studentId }
     if (student != null) {
         students.remove(student)
-        println("Xóa sinh viên thành công")
+        printSuccess(Messages.DELETE_STUDENT_SUCCESS)
     } else {
         printErr(Messages.STUDENT_NOT_FOUND)
     }
@@ -241,4 +241,9 @@ private fun exit() {
 
 fun printErr(errorMsg: String) {
     System.err.println(errorMsg)
+}
+fun printSuccess(successMsg: String) {
+    val greenColor = "\u001b[32m"
+    val resetColor = "\u001b[0m"
+    println("$greenColor$successMsg$resetColor")
 }
