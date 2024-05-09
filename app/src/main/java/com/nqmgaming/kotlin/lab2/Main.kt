@@ -12,7 +12,7 @@ private fun main() {
             3 -> leapYearChecker()
             4 -> student()
             0 -> exit()
-            else -> println("Invalid choice. Please try again.")
+            else -> println(Messages.INVALID_CHOICE)
         }
     }
 }
@@ -101,7 +101,7 @@ private fun student() {
             2 -> addStudent(students)
             3 -> editStudent(students)
             4 -> deleteStudent(students)
-            else -> println("Invalid choice. Please try again.")
+            else -> printErr(Messages.INVALID_CHOICE)
         }
     }
 }
@@ -128,14 +128,12 @@ private fun printListStudents(students: List<Student>) {
 }
 
 private fun addStudent(students: MutableList<Student>) {
-    println("Nhập mã sinh viên:")
-    val studentId = readln()
+    val studentId = validateStudentId()
     if (validateStudentId(students, studentId)) {
-        println("Mã sinh viên đã tồn tại")
+        printErr("Mã sinh viên đã tồn tại")
         return
     }
-    println("Nhập tên sinh viên:")
-    val nameStudent = readln()
+    val nameStudent = validateStudentName()
     val scoreAvg = validateScoreAvg()
     println("Sinh viên đã tốt nghiệp?(y/n):")
     val isGraduated = readln() == "y"
@@ -154,18 +152,21 @@ private fun addStudent(students: MutableList<Student>) {
 
 private fun editStudent(students: MutableList<Student>) {
     println("Nhập mã sinh viên cần sửa:")
-    val studentId = readln()
+    val studentId = validateStudentId()
     val student = students.find { it.studentId == studentId }
     if (student != null) {
-        println("Nhập tên sinh viên ${student.studentId}:")
-        student.nameStudent = readln()
+        println("Tên cũ ${student.nameStudent}:")
+        student.nameStudent = validateStudentName()
+        println("Điểm trung bình cũ ${student.scoreAvg}:")
         student.scoreAvg = validateScoreAvg()
-        println("Sinh viên đã tốt nghiệp?(y/n) ${student.isGraduated}:")
+        println("Trạng thái tốt nghiệp cũ ${student.isGraduated}:")
+        println("Sinh viên đã tốt nghiệp?(y/n):")
         student.isGraduated = readln() == "y"
+        println("Tuổi cũ ${student.age}:")
         student.age = validateAge()
         println("Sửa thông tin sinh viên thành công")
     } else {
-        println("Không tìm thấy sinh viên")
+        printErr(Messages.STUDENT_NOT_FOUND)
     }
 }
 
@@ -177,12 +178,36 @@ private fun deleteStudent(students: MutableList<Student>) {
         students.remove(student)
         println("Xóa sinh viên thành công")
     } else {
-        println("Không tìm thấy sinh viên")
+        printErr(Messages.STUDENT_NOT_FOUND)
     }
 }
 
 private fun validateStudentId(students: MutableList<Student>, studentId: String): Boolean {
     return students.any { it.studentId == studentId }
+}
+
+private fun validateStudentId(): String {
+    var studentId: String? = null
+    while (studentId.isNullOrEmpty()) {
+        println("Nhập mã sinh viên:")
+        studentId = readln()
+        if (studentId.isEmpty()) {
+            printErr(Messages.INVALID_STUDENT_ID)
+        }
+    }
+    return studentId
+}
+
+private fun validateStudentName(): String {
+    var nameStudent: String? = null
+    while (nameStudent.isNullOrEmpty()) {
+        println("Nhập tên sinh viên:")
+        nameStudent = readln()
+        if (nameStudent.isEmpty()) {
+            printErr(Messages.INVALID_NAME)
+        }
+    }
+    return nameStudent
 }
 
 private fun validateScoreAvg(): Double {
@@ -191,7 +216,7 @@ private fun validateScoreAvg(): Double {
         println("Nhập điểm trung bình:")
         scoreAvg = readln().toDoubleOrNull()
         if (scoreAvg == null || scoreAvg < 0 || scoreAvg > 10) {
-            println("Điểm trung bình không hợp lệ, vui lòng nhập lại:")
+            printErr(Messages.INVALID_SCORE_AVG)
         }
     }
     return scoreAvg
@@ -199,11 +224,11 @@ private fun validateScoreAvg(): Double {
 
 private fun validateAge(): Int {
     var age: Int? = null
-    while (age == null || age < 0) {
+    while (age == null || age < 18) {
         println("Nhập tuổi:")
         age = readln().toIntOrNull()
-        if (age == null || age < 0) {
-            println("Tuổi không hợp lệ, vui lòng nhập lại:")
+        if (age == null || age < 18) {
+            printErr(Messages.INVALID_AGE)
         }
     }
     return age
@@ -212,4 +237,8 @@ private fun validateAge(): Int {
 private fun exit() {
     println("Exiting program...")
     exitProcess(0)
+}
+
+fun printErr(errorMsg: String) {
+    System.err.println(errorMsg)
 }
