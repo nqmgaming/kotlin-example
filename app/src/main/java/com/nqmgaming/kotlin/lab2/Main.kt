@@ -121,7 +121,7 @@ private fun menuStudent() {
 }
 
 private fun printListStudents(students: List<Student>) {
-    println("Danh sách sinh viên:")
+    println(Messages.STUDENT_LIST)
     for (student in students) {
         student.printStudentInfo()
     }
@@ -130,12 +130,12 @@ private fun printListStudents(students: List<Student>) {
 private fun addStudent(students: MutableList<Student>) {
     val studentId = validateStudentId()
     if (validateStudentId(students, studentId)) {
-        printErr("Mã sinh viên đã tồn tại")
+        printErr(Messages.STUDENT_ID_EXISTS)
         return
     }
     val nameStudent = validateStudentName()
     val scoreAvg = validateScoreAvg()
-    println("Sinh viên đã tốt nghiệp?(y/n):")
+    println(Messages.IS_GRADUATED)
     val isGraduated = readln() == "y"
     val age = validateAge()
     val student = Student(
@@ -151,7 +151,7 @@ private fun addStudent(students: MutableList<Student>) {
 }
 
 private fun editStudent(students: MutableList<Student>) {
-    println("Nhập mã sinh viên cần sửa:")
+    println(Messages.ENTER_STUDENT_ID_TO_EDIT)
     val studentId = validateStudentId()
     val student = students.find { it.studentId == studentId }
     if (student != null) {
@@ -160,7 +160,7 @@ private fun editStudent(students: MutableList<Student>) {
         println("Điểm trung bình cũ ${student.scoreAvg}:")
         student.scoreAvg = validateScoreAvg()
         println("Trạng thái tốt nghiệp cũ ${student.isGraduated}:")
-        println("Sinh viên đã tốt nghiệp?(y/n):")
+        println(Messages.IS_GRADUATED)
         student.isGraduated = readln() == "y"
         println("Tuổi cũ ${student.age}:")
         student.age = validateAge()
@@ -171,7 +171,7 @@ private fun editStudent(students: MutableList<Student>) {
 }
 
 private fun deleteStudent(students: MutableList<Student>) {
-    println("Nhập mã sinh viên cần xóa:")
+    println(Messages.ENTER_STUDENT_ID_TO_DELETE)
     val studentId = readln()
     val student = students.find { it.studentId == studentId }
     if (student != null) {
@@ -189,7 +189,7 @@ private fun validateStudentId(students: MutableList<Student>, studentId: String)
 private fun validateStudentId(): String {
     var studentId: String? = null
     while (studentId.isNullOrEmpty()) {
-        println("Nhập mã sinh viên:")
+        println(Messages.ENTER_STUDENT_ID)
         studentId = readln()
         if (studentId.isEmpty()) {
             printErr(Messages.INVALID_STUDENT_ID)
@@ -201,7 +201,7 @@ private fun validateStudentId(): String {
 private fun validateStudentName(): String {
     var nameStudent: String? = null
     while (nameStudent.isNullOrEmpty()) {
-        println("Nhập tên sinh viên:")
+        println(Messages.ENTER_STUDENT_NAME)
         nameStudent = readln()
         if (nameStudent.isEmpty()) {
             printErr(Messages.INVALID_NAME)
@@ -213,7 +213,7 @@ private fun validateStudentName(): String {
 private fun validateScoreAvg(): Double {
     var scoreAvg: Double? = null
     while (scoreAvg == null || scoreAvg < 0 || scoreAvg > 10) {
-        println("Nhập điểm trung bình:")
+        println(Messages.ENTER_STUDENT_SCORE_AVG)
         scoreAvg = readln().toDoubleOrNull()
         if (scoreAvg == null || scoreAvg < 0 || scoreAvg > 10) {
             printErr(Messages.INVALID_SCORE_AVG)
@@ -225,7 +225,7 @@ private fun validateScoreAvg(): Double {
 private fun validateAge(): Int {
     var age: Int? = null
     while (age == null || age < 18) {
-        println("Nhập tuổi:")
+        println(Messages.ENTER_AGE)
         age = readln().toIntOrNull()
         if (age == null || age < 18) {
             printErr(Messages.INVALID_AGE)
@@ -235,13 +235,14 @@ private fun validateAge(): Int {
 }
 
 private fun exit() {
-    println("Exiting program...")
+    println(Messages.EXIT_MESSAGE)
     exitProcess(0)
 }
 
 fun printErr(errorMsg: String) {
     System.err.println(errorMsg)
 }
+
 fun printSuccess(successMsg: String) {
     val greenColor = "\u001b[32m"
     val resetColor = "\u001b[0m"

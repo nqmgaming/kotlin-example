@@ -14,4 +14,10 @@ object Messages {
     const val DELETE_STUDENT_SUCCESS = "Xóa sinh viên thành công"
     const val INVALID_NAME = "Tên sinh viên không hợp lệ, vui lòng nhập lại:"
     const val INVALID_STUDENT_ID = "Mã sinh viên không hợp lệ, vui lòng nhập lại:"
+    const val EXIT_MESSAGE = "Goodbye!"
+    const val ENTER_STUDENT_SCORE_AVG = "Nhập điểm trung bình:"
+    const val ENTER_STUDENT_ID_TO_EDIT = "Nhập mã sinh viên cần sửa:"
+    const val ENTER_STUDENT_ID_TO_DELETE = "Nhập mã sinh viên cần xóa:"
+    const val ENTER_AGE = "Nhập tuổi:"
+    const val STUDENT_LIST = "Danh sách sinh viên:"
 }
