@@ -6,7 +6,6 @@ class ManagerCard {
         get() = _listCard
 
     fun addCard(card: Card) {
-//        _listCard.add(card)
         if (_listCard.find { it.id == card.id } == null) {
             _listCard.add(card)
             println("Card added")

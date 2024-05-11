@@ -13,7 +13,7 @@ fun main() {
 
     while (true) {
         printMenu()
-        when (readln().toIntOrNull() ?: -1) {
+        when (readInt()) {
             1 -> addTeacher(managerTeacher)
             2 -> deleteTeacher(managerTeacher)
             3 -> getSalary(managerTeacher)
@@ -65,6 +65,7 @@ fun addTeacher(managerTeacher: ManagerTeacher) {
     val salary = readDouble()
     val teacher = Teacher(id, name, age, hometown, realSalary, penalty, bonus, salary)
     managerTeacher.addTeacher(teacher)
+    println("Teacher added successfully.")
 }
 
 fun deleteTeacher(managerTeacher: ManagerTeacher) {
@@ -77,7 +78,7 @@ fun getSalary(managerTeacher: ManagerTeacher) {
     println("Enter teacher id:")
     val id = readInt()
     val salary = managerTeacher.getSalaryById(id)
-    println("Salary: $salary")
+    println("Salary of teacher with id $id is: $salary")
 }
 
 fun exit() {
