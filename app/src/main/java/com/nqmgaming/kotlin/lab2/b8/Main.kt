@@ -51,7 +51,7 @@ fun printMenu() {
 fun addCard(managerCard: ManagerCard) {
     println("Enter card ID:")
     var id = readInt()
-    if (managerCard.listCard.any { it.id == id }) {
+    while (managerCard.listCard.any { it.id == id }) {
         println("Card with ID $id already exists. Please enter a different ID.")
         id = readInt()
     }
