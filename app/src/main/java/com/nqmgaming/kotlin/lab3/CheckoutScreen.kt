@@ -185,7 +185,24 @@ private fun PaymentMethodItem(
     onPaymentMethodSelected: (PaymentMethod) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Card(onClick = { onPaymentMethodSelected(paymentMethod) }) {
+    Card(
+        onClick = {
+            onPaymentMethodSelected(paymentMethod)
+        },
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+            .drawBehind {
+                if (isSelected) {
+                    drawRect(
+                        color = Color(0xFFFF9800),
+                        topLeft = Offset(0f, 0f),
+                        size = size
+                    )
+                }
+            }
+            .padding(2.dp)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -263,7 +280,7 @@ private fun BottomNavigationBar() {
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Yellow,
                 selectedTextColor = Color.Yellow,
-                indicatorColor = Color.Transparent,
+                indicatorColor = Color(0xFFFFA000),
                 unselectedIconColor = Color.White,
                 unselectedTextColor = Color.White
             )
@@ -278,7 +295,7 @@ private fun BottomNavigationBar() {
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Yellow,
                 selectedTextColor = Color.Yellow,
-                indicatorColor = Color.Transparent,
+                indicatorColor = Color(0xFFFFA000),
                 unselectedIconColor = Color.White,
                 unselectedTextColor = Color.White
             )
@@ -293,7 +310,7 @@ private fun BottomNavigationBar() {
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Yellow,
                 selectedTextColor = Color.Yellow,
-                indicatorColor = Color.Transparent,
+                indicatorColor = Color(0xFFFFA000),
                 unselectedIconColor = Color.White,
                 unselectedTextColor = Color.White
             )
@@ -308,7 +325,7 @@ private fun BottomNavigationBar() {
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Yellow,
                 selectedTextColor = Color.Yellow,
-                indicatorColor = Color.Transparent,
+                indicatorColor = Color(0xFFFFA000),
                 unselectedIconColor = Color.White,
                 unselectedTextColor = Color.White
             )
