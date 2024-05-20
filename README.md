@@ -1,6 +1,6 @@
 # Lab Project
 
-This is a Kotlin-based project developed in Android Studio Jellyfish | 2023.3.1. The project is part of a series of labs and focuses on implementing a Notes application.
+This is a Kotlin-based project developed in Android Studio Jellyfish | 2023.3.1. The project is part of a series of labs.
 
 ## Technologies Used
 
