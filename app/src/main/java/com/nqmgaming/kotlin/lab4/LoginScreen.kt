@@ -49,6 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nqmgaming.kotlin.R
+import com.nqmgaming.kotlin.core.components.IconButton
 
 @Composable
 fun LoginScreen() {
@@ -242,51 +243,13 @@ fun LoginScreen() {
                 )
 
                 Row {
-                    Button(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier
-                            .padding(top = 10.dp)
-                            .width(150.dp)
-                            .height(50.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.White,
-                        ),
-                        shape = RoundedCornerShape(10.dp),
-                        border = BorderStroke(
-                            1.dp, Color.Gray.copy(
-                                alpha = 0.2f
-                            )
-                        )
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_google),
-                            contentDescription = "Google",
-                            modifier = Modifier.size(25.dp),
-                        )
-                    }
+                    IconButton(
+                        icon = R.drawable.ic_google,
+                        content = "Google",
+                        modifier = Modifier.padding(end = 10.dp)
+                    )
 
-                    Button(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier
-                            .padding(top = 10.dp, start = 10.dp)
-                            .width(150.dp)
-                            .height(50.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.White,
-                        ),
-                        shape = RoundedCornerShape(10.dp),
-                        border = BorderStroke(
-                            1.dp, Color.Gray.copy(
-                                alpha = 0.2f
-                            )
-                        )
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_facebook),
-                            contentDescription = "Facebook",
-                            modifier = Modifier.size(25.dp),
-                        )
-                    }
+                    IconButton(icon = R.drawable.ic_facebook, content = "Facebook")
                 }
             }
         }
