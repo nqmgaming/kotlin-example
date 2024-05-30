@@ -5,13 +5,17 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -25,8 +29,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun CategoryChips() {
@@ -41,16 +47,18 @@ fun CategoryChips() {
             label = { Text("Need help?") }
         )
 
-        var selected by remember { mutableStateOf(false) }
+        var selectedFood by remember { mutableStateOf(false) }
+        var selectedSpot by remember { mutableStateOf(false) }
+        var selectedShoes by remember { mutableStateOf(false) }
 
         var categories by remember {
             mutableStateOf(
                 listOf(
-                    Category("Food", selected),
-                    Category("Drinks", selected),
-                    Category("Desserts", selected),
-                    Category("Snacks", selected),
-                    Category("Others", selected)
+                    Category("Food", selectedFood),
+                    Category("Drinks", selectedFood),
+                    Category("Desserts", selectedFood),
+                    Category("Snacks", selectedFood),
+                    Category("Others", selectedFood)
                 )
             )
         }
@@ -58,28 +66,28 @@ fun CategoryChips() {
         var categoriesSpot by remember {
             mutableStateOf(
                 listOf(
-                    Category("Football", selected),
-                    Category("Basketball", selected),
-                    Category("Volleyball", selected),
-                    Category("Tennis", selected),
-                    Category("Others", selected)
-                )
-            )
-        }
-        
-        var categoriesShoes by remember {
-            mutableStateOf(
-                listOf(
-                    Category("Nike", selected),
-                    Category("Adidas", selected),
-                    Category("Puma", selected),
-                    Category("Reebok", selected),
-                    Category("Others", selected)
+                    Category("Football", selectedSpot),
+                    Category("Basketball", selectedSpot),
+                    Category("Volleyball", selectedSpot),
+                    Category("Tennis", selectedSpot),
+                    Category("Others", selectedSpot)
                 )
             )
         }
 
-        Text(text = "Choose a category")
+        var categoriesShoes by remember {
+            mutableStateOf(
+                listOf(
+                    Category("Nike", selectedShoes),
+                    Category("Adidas", selectedShoes),
+                    Category("Puma", selectedShoes),
+                    Category("Reebok", selectedShoes),
+                    Category("Others", selectedShoes)
+                )
+            )
+        }
+
+        Text(text = "Choose some food")
         Row(
             modifier = Modifier.horizontalScroll(rememberScrollState())
         ) {
@@ -99,7 +107,7 @@ fun CategoryChips() {
                 )
             }
         }
-        Text(text = "Choose a category")
+        Text(text = "Choose some sports")
         Row(
             modifier = Modifier.horizontalScroll(rememberScrollState())
         ) {
@@ -109,7 +117,7 @@ fun CategoryChips() {
                     selected = category.selected,
                     onSelectedChange = { it ->
                         category.selected = it
-                        categories = categories.map {
+                        categoriesSpot = categoriesSpot.map {
                             if (it.name == category.name) Category(
                                 it.name,
                                 it.selected
@@ -119,7 +127,7 @@ fun CategoryChips() {
                 )
             }
         }
-        Text(text = "Choose a category")
+        Text(text = "Choose some shoes")
         Row(
             modifier = Modifier.horizontalScroll(rememberScrollState())
         ) {
@@ -143,12 +151,38 @@ fun CategoryChips() {
             }
         }
 
-        Button(onClick = {
-            categories = categories.map { Category(it.name, false) }
-            categoriesSpot = categoriesSpot.map { Category(it.name, false) }
-            categoriesShoes = categoriesShoes.map { Category(it.name, false) }
-        }) {
-            Text("Reset")
+        val originalCategoriesShoes = listOf(
+            Category("Nike", false),
+            Category("Adidas", false),
+            Category("Puma", false),
+            Category("Reebok", false),
+            Category("Others", false)
+        )
+
+        Button(
+            onClick = {
+                categories = categories.map { Category(it.name, false) }
+                categoriesSpot = categoriesSpot.map { Category(it.name, false) }
+                categoriesShoes = originalCategoriesShoes
+            },
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .height(50.dp),
+            elevation = ButtonDefaults.elevatedButtonElevation(
+                defaultElevation = 8.dp,
+                pressedElevation = 16.dp
+            ),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFda4c56),
+                contentColor = Color.White
+            ),
+            shape = RoundedCornerShape(10.dp)
+        ) {
+            Text("Reset", style = TextStyle(
+                color = Color.White,
+                fontSize = 18.sp,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+            ))
         }
 
 
@@ -199,10 +233,11 @@ private fun FilterChipApp2(
         selected = selected,
         modifier = Modifier.padding(4.dp),
         colors = FilterChipDefaults.filterChipColors(
-            containerColor = if (selected) Color(0xFFE0F7FA) else Color(0xFFE0F7FA),
+            containerColor = if (selected) Color.Gray else Color(0xFFE0F7FA),
         ),
     )
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FilterChipApp3(
