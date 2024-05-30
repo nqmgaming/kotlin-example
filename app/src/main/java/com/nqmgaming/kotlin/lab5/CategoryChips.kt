@@ -10,16 +10,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.InputChip
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +28,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryChips() {
     Column(
@@ -92,7 +87,7 @@ fun CategoryChips() {
                 FilterChipApp(
                     label = category.name,
                     selected = category.selected,
-                    onSelectedChange = {
+                    onSelectedChange = { it ->
                         category.selected = it
                         categories = categories.map {
                             if (it.name == category.name) Category(
@@ -112,7 +107,7 @@ fun CategoryChips() {
                 FilterChipApp2(
                     label = category.name,
                     selected = category.selected,
-                    onSelectedChange = {
+                    onSelectedChange = { it ->
                         category.selected = it
                         categories = categories.map {
                             if (it.name == category.name) Category(
@@ -132,17 +127,28 @@ fun CategoryChips() {
                 FilterChipApp3(
                     label = category.name,
                     selected = category.selected,
-                    onSelectedChange = {
+                    onSelectedChange = { it ->
                         category.selected = it
-                        categories = categories.map {
+                        categoriesShoes = categoriesShoes.map {
                             if (it.name == category.name) Category(
                                 it.name,
                                 it.selected
                             ) else it
                         }
+                    },
+                    onItemDelete = {
+                        categoriesShoes = categoriesShoes.filter { it.name != category.name }
                     }
                 )
             }
+        }
+
+        Button(onClick = {
+            categories = categories.map { Category(it.name, false) }
+            categoriesSpot = categoriesSpot.map { Category(it.name, false) }
+            categoriesShoes = categoriesShoes.map { Category(it.name, false) }
+        }) {
+            Text("Reset")
         }
 
 
@@ -203,10 +209,11 @@ private fun FilterChipApp3(
     label: String,
     selected: Boolean,
     onSelectedChange: (Boolean) -> Unit,
+    onItemDelete: () -> Unit
 ) {
     FilterChip(
         onClick = {
-            onSelectedChange(!selected)
+            onItemDelete()
         },
         label = { Text(label) },
         selected = selected,
