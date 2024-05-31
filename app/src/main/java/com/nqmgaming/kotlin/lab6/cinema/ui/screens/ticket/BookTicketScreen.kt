@@ -10,10 +10,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -22,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.nqmgaming.kotlin.R
+import com.nqmgaming.kotlin.lab6.cinema.Screen
 import com.nqmgaming.kotlin.lab6.cinema.model.entities.seat.Seat
 import com.nqmgaming.kotlin.lab6.cinema.model.entities.seat.SeatStatus
 import com.nqmgaming.kotlin.lab6.cinema.ui.components.SeatComposable
@@ -38,17 +43,34 @@ fun BookTicketScreen(
         aislePositionInColumn = 5
     )
 
+    var selectedSeatsCount by remember { mutableStateOf(0) }
+    val maxSeatsLimit = 5
+
     CinemaSeatBookingScreen(
         seats = seats,
-        totalSeatsPerRow = 9
+        totalSeatsPerRow = 9,
+        selectedSeatsCount = selectedSeatsCount,
+        maxSeatsLimit = maxSeatsLimit,
+        onSeatSelected = { selectedSeatsCount++ },
+        onSeatDeselected = { selectedSeatsCount-- },
+        onConfirm = {
+            navController.navigate(route = Screen.Confirmation.route)
+        }
     )
 }
 
 @Composable
 fun CinemaSeatBookingScreen(
     seats: List<Seat>,
-    totalSeatsPerRow: Int
+    totalSeatsPerRow: Int,
+    selectedSeatsCount: Int,
+    maxSeatsLimit: Int,
+    onSeatSelected: () -> Unit,
+    onSeatDeselected: () -> Unit,
+    onConfirm: () -> Unit
 ) {
+    var totalPrice by remember { mutableStateOf(0f) }
+
     val textModifier = Modifier.padding(
         end = 16.dp, start =
         4.dp
@@ -71,7 +93,12 @@ fun CinemaSeatBookingScreen(
         LazyVerticalGrid(columns = GridCells.Fixed(totalSeatsPerRow)) {
             items(seats.size) { index ->
                 val seat = seats[index]
-                SeatComposable(seat)
+                SeatComposable(
+                    seat = seat,
+                    clickable = selectedSeatsCount < maxSeatsLimit || seat.status == SeatStatus.SELECTED,
+                    onSeatSelected = { price -> totalPrice += price },
+                    onSeatDeselected = { price -> totalPrice -= price }
+                )
             }
         }
         Spacer(modifier = Modifier.height(30.dp))
@@ -100,24 +127,37 @@ fun CinemaSeatBookingScreen(
                     SeatStatus.BOOKED
                 )
             }
-            SeatComposable(exampleEmptySeat, false)
+            SeatComposable(exampleEmptySeat, false, {}, {})
             Text(
                 text = "Available",
                 style = MaterialTheme.typography.titleSmall,
                 modifier = textModifier
             )
-            SeatComposable(exampleSelectedSeat, false)
+            SeatComposable(exampleSelectedSeat, false, {}, {})
             Text(
                 text = "Selected",
                 style = MaterialTheme.typography.titleSmall,
                 modifier = textModifier
             )
-            SeatComposable(exampleBookedSeat, false)
+            SeatComposable(exampleBookedSeat, false, {}, {})
             Text(
                 text = "Booked",
                 style = MaterialTheme.typography.titleSmall,
                 modifier = textModifier
             )
+        }
+        Text(
+            text = "Total Price: $${"%.2f".format(totalPrice)}",
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(top = 16.dp)
+        )
+        Button(
+            onClick = {
+                onConfirm()
+            },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text("Confirm Booking")
         }
     }
 }

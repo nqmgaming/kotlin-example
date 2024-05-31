@@ -1,4 +1,4 @@
-package com.nqmgaming.kotlin
+package com.nqmgaming.kotlin.lab1
 
 import android.os.Build
 import androidx.annotation.RequiresApi

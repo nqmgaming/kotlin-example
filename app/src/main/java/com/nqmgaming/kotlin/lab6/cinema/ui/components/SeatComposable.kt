@@ -27,7 +27,12 @@ import com.nqmgaming.kotlin.lab6.cinema.model.entities.seat.Seat
 import com.nqmgaming.kotlin.lab6.cinema.model.entities.seat.SeatStatus
 
 @Composable
-fun SeatComposable(seat: Seat, clickable: Boolean = true) {
+fun SeatComposable(
+    seat: Seat,
+    clickable: Boolean = true,
+    onSeatSelected: (Float) -> Unit,
+    onSeatDeselected: (Float) -> Unit
+    ) {
     var status by remember { mutableStateOf(seat.status) }
     val backgroundColor = when (status) {
         SeatStatus.EMPTY -> Color.LightGray.copy(alpha = 0.5f)
@@ -57,9 +62,14 @@ fun SeatComposable(seat: Seat, clickable: Boolean = true) {
                 if (seat.status != SeatStatus.AISLE) 3.dp
                 else 0.dp
             )
-            .clickable(enabled = clickable && (status == SeatStatus.EMPTY || status == SeatStatus.SELECTED)) {
-                status = if (status == SeatStatus.EMPTY)
-                    SeatStatus.SELECTED else SeatStatus.EMPTY
+            .clickable(enabled = clickable) {
+                if (status == SeatStatus.EMPTY) {
+                    status = SeatStatus.SELECTED
+                    onSeatSelected(seat.price)
+                } else if (status == SeatStatus.SELECTED) {
+                    status = SeatStatus.EMPTY
+                    onSeatDeselected(seat.price)
+                }
             },
         contentAlignment = Alignment.Center
     ) {
@@ -73,19 +83,3 @@ fun SeatComposable(seat: Seat, clickable: Boolean = true) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SeatComposablePreview() {
-    Row {
-        SeatComposable(
-            seat = Seat(
-                row = 'A',
-                number = 1,
-                status = SeatStatus.EMPTY
-            )
-        )
-        SeatComposable(seat = Seat(row = 'A', number = 2, status = SeatStatus.SELECTED))
-        SeatComposable(seat = Seat(row = 'A', number = 3, status = SeatStatus.BOOKED))
-        SeatComposable(seat = Seat(row = 'A', number = 4, status = SeatStatus.AISLE))
-    }
-}
