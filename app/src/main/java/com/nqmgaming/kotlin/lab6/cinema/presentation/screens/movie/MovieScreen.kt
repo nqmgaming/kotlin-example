@@ -22,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,6 +34,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -50,6 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -60,15 +63,24 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: MovieViewModel = hiltViewModel(),
 ) {
     val listType = remember { mutableStateOf(ListType.COLUMN) }
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
 
-    val movieViewModel: MovieViewModel = viewModel()
-    val moviesState = movieViewModel.movies.observeAsState(initial = emptyList())
+    val state = viewModel.state.value
+
+    val onEvent: (MovieScreenEvent) -> Unit = { event ->
+        viewModel.onEvent(event)
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.onEvent(MovieScreenEvent.OnLoad)
+
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -105,13 +117,21 @@ fun MovieScreen(
                             contentPadding = PaddingValues(8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            items(moviesState.value.size) { index ->
-                                MovieItem(
-                                    movie = moviesState.value[index],
-                                    onClick = {
-                                        navController.navigate(Screen.BookTicket.route)
-                                    }
-                                )
+                            if (state.isLoading) {
+                                item {
+                                    CircularProgressIndicator()
+                                }
+                            } else if (state.movies.isEmpty()) {
+                                item {
+                                    Text("No movies found")
+                                }
+                            } else {
+                                items(state.movies.size) { index ->
+                                    MovieItem(movie = state.movies[index],
+                                        onClick = {
+                                            onEvent(MovieScreenEvent.OnMovieSelected(state.movies[index]))
+                                        })
+                                }
                             }
                         }
                     }
@@ -124,11 +144,21 @@ fun MovieScreen(
                             verticalItemSpacing = 8.dp,
                             contentPadding = PaddingValues(8.dp)
                         ) {
-                            items(moviesState.value.size) { index ->
-                                MovieItem(movie = moviesState.value[index],
-                                    onClick = {
-                                        navController.navigate(Screen.BookTicket.route)
-                                    })
+                            if (state.isLoading) {
+                                item {
+                                    CircularProgressIndicator()
+                                }
+                            } else if (state.movies.isEmpty()) {
+                                item {
+                                    Text("No movies found")
+                                }
+                            } else {
+                                items(state.movies.size) { index ->
+                                    MovieItem(movie = state.movies[index],
+                                        onClick = {
+                                            onEvent(MovieScreenEvent.OnMovieSelected(state.movies[index]))
+                                        })
+                                }
                             }
                         }
                     }
@@ -138,11 +168,21 @@ fun MovieScreen(
                             contentPadding = PaddingValues(8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            items(moviesState.value.size) { index ->
-                                MovieItemVertical(movie = moviesState.value[index],
-                                    onClick = {
-                                        navController.navigate(Screen.BookTicket.route)
-                                    })
+                            if (state.isLoading) {
+                                item {
+                                    CircularProgressIndicator()
+                                }
+                            } else if (state.movies.isEmpty()) {
+                                item {
+                                    Text("No movies found")
+                                }
+                            } else {
+                                items(state.movies.size) { index ->
+                                    MovieItemVertical(movie = state.movies[index],
+                                        onClick = {
+                                            onEvent(MovieScreenEvent.OnMovieSelected(state.movies[index]))
+                                        })
+                                }
                             }
                         }
                     }

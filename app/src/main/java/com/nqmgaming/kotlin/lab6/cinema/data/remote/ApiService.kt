@@ -6,13 +6,13 @@ import retrofit2.http.POST
 import retrofit2.http.Body
 
 interface ApiService {
-    @GET("/movies")
+    @GET("movies")
     suspend fun getMovies(): List<MovieDTO>
 
-    @GET("/movies/{id}")
+    @GET("movies/{id}")
     suspend fun getMovieById(id: Int): MovieDTO
 
-    @POST("/movies")
+    @POST("movies")
     suspend fun addMovie(@Body movie: MovieDTO): MovieDTO
 
 }
