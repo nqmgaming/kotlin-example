@@ -1,4 +1,4 @@
-package com.nqmgaming.kotlin.lab6.cinema.ui.screens
+package com.nqmgaming.kotlin.lab6.cinema.ui.screens.movie
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -52,17 +52,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.nqmgaming.kotlin.lab6.cinema.model.entities.Movie
-import com.nqmgaming.kotlin.lab6.cinema.model.entities.getListMovies
+import com.nqmgaming.kotlin.lab6.cinema.Screen
+import com.nqmgaming.kotlin.lab6.cinema.model.entities.movie.Movie
+import com.nqmgaming.kotlin.lab6.cinema.model.entities.movie.getListMovies
 import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieScreen() {
-    var listType = remember { mutableStateOf(ListType.COLUMN) }
-    val context = LocalContext.current
+fun MovieScreen(
+    navController: NavController
+) {
+    val listType = remember { mutableStateOf(ListType.COLUMN) }
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
@@ -119,7 +121,9 @@ fun MovieScreen() {
                         ) {
                             val movies = Movie().getListMovies()
                             items(movies.size) { index ->
-                                MovieItem(movie = movies[index])
+                                MovieItem(movie = movies[index], onClick = {
+                                    navController.navigate(route = Screen.BookTicket.route)
+                                })
                             }
                         }
                     }
@@ -131,7 +135,9 @@ fun MovieScreen() {
                         ) {
                             val movies = Movie().getListMovies()
                             items(movies.size) { index ->
-                                MovieItemVertical(movie = movies[index])
+                                MovieItemVertical(movie = movies[index], onClick = {
+                                    navController.navigate(route = Screen.BookTicket.route)
+                                })
                             }
 
                         }
@@ -233,10 +239,13 @@ fun MovieScreen() {
 
 @Composable
 fun MovieItem(
-    movie: Movie
+    movie: Movie,
+    onClick: () -> Unit = {}
 ) {
     Card(
-        onClick = { /*TODO*/ },
+        onClick = {
+            onClick()
+        },
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
     ) {
@@ -317,10 +326,13 @@ fun MovieItem(
 
 @Composable
 fun MovieItemVertical(
-    movie: Movie
+    movie: Movie,
+    onClick: () -> Unit = {}
 ) {
     Card(
-        onClick = { /*TODO*/ },
+        onClick = {
+            onClick()
+        },
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
     ) {
@@ -433,18 +445,19 @@ fun MovieItemVertical(
                     }
                 })
 
-                Text(text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(color = Color.Black)) {
-                        append("Synopsis: ")
-                    }
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color.Gray
-                        )
-                    ) {
-                        append("${movie.synopsis}")
-                    }
-                },
+                Text(
+                    text = buildAnnotatedString {
+                        withStyle(style = SpanStyle(color = Color.Black)) {
+                            append("Synopsis: ")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = Color.Gray
+                            )
+                        ) {
+                            append("${movie.synopsis}")
+                        }
+                    },
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 4
                 )
@@ -453,10 +466,4 @@ fun MovieItemVertical(
             }
         }
     }
-}
-
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun MovieScreenPreview() {
-    MovieScreen()
 }
