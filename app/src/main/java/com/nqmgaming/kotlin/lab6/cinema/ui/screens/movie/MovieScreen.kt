@@ -35,6 +35,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -52,6 +53,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.nqmgaming.kotlin.lab6.cinema.Screen
@@ -68,6 +70,9 @@ fun MovieScreen(
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
+
+    val movieViewModel: MovieViewModel = viewModel()
+    val moviesState = movieViewModel.movies.observeAsState(initial = emptyList())
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -104,9 +109,13 @@ fun MovieScreen(
                             contentPadding = PaddingValues(8.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            val movies = Movie().getListMovies()
-                            items(movies.size) { index ->
-                                MovieItem(movie = movies[index])
+                            items(moviesState.value.size) { index ->
+                                MovieItem(
+                                    movie = moviesState.value[index],
+                                    onClick = {
+                                        navController.navigate(Screen.BookTicket.route)
+                                    }
+                                )
                             }
                         }
                     }
@@ -119,11 +128,11 @@ fun MovieScreen(
                             verticalItemSpacing = 8.dp,
                             contentPadding = PaddingValues(8.dp)
                         ) {
-                            val movies = Movie().getListMovies()
-                            items(movies.size) { index ->
-                                MovieItem(movie = movies[index], onClick = {
-                                    navController.navigate(route = Screen.BookTicket.route)
-                                })
+                            items(moviesState.value.size) { index ->
+                                MovieItem(movie = moviesState.value[index],
+                                    onClick = {
+                                        navController.navigate(Screen.BookTicket.route)
+                                    })
                             }
                         }
                     }
@@ -133,13 +142,12 @@ fun MovieScreen(
                             contentPadding = PaddingValues(8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            val movies = Movie().getListMovies()
-                            items(movies.size) { index ->
-                                MovieItemVertical(movie = movies[index], onClick = {
-                                    navController.navigate(route = Screen.BookTicket.route)
-                                })
+                            items(moviesState.value.size) { index ->
+                                MovieItemVertical(movie = moviesState.value[index],
+                                    onClick = {
+                                        navController.navigate(Screen.BookTicket.route)
+                                    })
                             }
-
                         }
                     }
                 }

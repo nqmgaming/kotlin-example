@@ -25,7 +25,7 @@ fun LightControl() {
         mutableStateOf(false)
     }
 
-    var lightResource = if (lightOn) R.drawable.light_bulb_on else R.drawable.light_bulb_off
+    val lightResource = if (lightOn) R.drawable.light_bulb_on else R.drawable.light_bulb_off
 
     Column(
         modifier = Modifier.fillMaxSize(),

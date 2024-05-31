@@ -5,7 +5,6 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,7 +15,6 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -47,9 +45,9 @@ fun CategoryChips() {
             label = { Text("Need help?") }
         )
 
-        var selectedFood by remember { mutableStateOf(false) }
-        var selectedSpot by remember { mutableStateOf(false) }
-        var selectedShoes by remember { mutableStateOf(false) }
+        val selectedFood by remember { mutableStateOf(false) }
+        val selectedSpot by remember { mutableStateOf(false) }
+        val selectedShoes by remember { mutableStateOf(false) }
 
         var categories by remember {
             mutableStateOf(
@@ -190,7 +188,6 @@ fun CategoryChips() {
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FilterChipApp(
     label: String,
@@ -218,7 +215,6 @@ private fun FilterChipApp(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FilterChipApp2(
     label: String,
@@ -238,7 +234,6 @@ private fun FilterChipApp2(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FilterChipApp3(
     label: String,

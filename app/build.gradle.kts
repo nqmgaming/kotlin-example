@@ -64,8 +64,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // Navigation
     implementation(libs.androidx.navigation.compose)
 
     // Coil
     implementation(libs.coil.compose)
+
+    // LiveData
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.0")
 }

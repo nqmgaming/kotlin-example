@@ -1,4 +1,4 @@
-package com.nqmgaming.kotlin.lab5
+package com.nqmgaming.kotlin.lab6.cinema.ui.screens.login
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -30,7 +30,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -49,19 +51,21 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.nqmgaming.kotlin.R
+import com.nqmgaming.kotlin.lab6.cinema.Screen
 
 @Composable
-fun LoginScreen() {
-    var email by remember {
-        mutableStateOf("")
-    }
-    var password by remember {
-        mutableStateOf("")
-    }
-    var rememberMe by remember {
-        mutableStateOf(false)
-    }
+fun LoginScreen(
+    navController: NavController
+) {
+    val viewModel: LoginViewModel = viewModel()
+    // Observe the LiveData objects in the ViewModel
+    val email by viewModel.email.observeAsState("")
+    val password by viewModel.password.observeAsState("")
+    val rememberMe by viewModel.rememberMe.observeAsState(false)
+    val isLoginSuccess by viewModel.isLoginSuccess.observeAsState(false)
     var dialogMessage by remember {
         mutableStateOf("")
     }
@@ -69,6 +73,7 @@ fun LoginScreen() {
         mutableStateOf(false)
     }
     val context = LocalContext.current
+
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -108,7 +113,7 @@ fun LoginScreen() {
                     append("Welcome back to ")
                 }
                 withStyle(style = SpanStyle(color = Color(0xFFda4c00), fontSize = 16.sp)) {
-                    append("UinSports.com")
+                    append("vipstream.com")
                 }
             }, modifier = Modifier.padding(bottom = 3.dp))
             Column(
@@ -124,7 +129,7 @@ fun LoginScreen() {
                     modifier = Modifier.size(60.dp),
                 )
                 Text(
-                    text = "UinSports", style = TextStyle(
+                    text = "VipStream", style = TextStyle(
                         color = Color(0xFFda4c56),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
@@ -133,7 +138,7 @@ fun LoginScreen() {
             }
             TextField(
                 value = email,
-                onValueChange = { email = it },
+                onValueChange = { viewModel.onEmailChanged(it) },
                 maxLines = 1,
                 leadingIcon = {
                     Icon(
@@ -158,7 +163,7 @@ fun LoginScreen() {
             )
             TextField(
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = { viewModel.onPasswordChanged(it) },
                 maxLines = 1,
                 shape = RoundedCornerShape(10.dp),
                 placeholder = { Text("Enter your password") },
@@ -187,7 +192,7 @@ fun LoginScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Switch(
-                    checked = rememberMe, onCheckedChange = { rememberMe = it },
+                    checked = rememberMe, onCheckedChange = { viewModel.onRememberMeChanged(it) },
                     modifier = Modifier,
                     thumbContent = {
                         Icon(
@@ -218,10 +223,14 @@ fun LoginScreen() {
             Button(
                 onClick = {
                     if (email.isNotEmpty() && password.isNotEmpty()) {
-                        dialogMessage =
-                            "Email: $email\nPassword: $password\nRemember me: $rememberMe"
-                        showDialog = true
-                        Toast.makeText(context, dialogMessage, Toast.LENGTH_SHORT).show()
+                        viewModel.onLoginClicked()
+                        if (isLoginSuccess) {
+                            dialogMessage = "Login successful"
+                            showDialog = true
+                        } else {
+                            dialogMessage = "Invalid email or password"
+                            showDialog = true
+                        }
                     } else {
                         dialogMessage = "Please fill in all the fields"
                         showDialog = true
@@ -262,7 +271,17 @@ fun LoginScreen() {
                 confirmButton = {
                     Button(
                         onClick = {
-                            showDialog = false
+                            showDialog = false.also {
+                                if (isLoginSuccess) {
+                                    viewModel.resetAuthenticationState()
+                                    navController.navigate(Screen.Home.route) {
+                                        popUpTo(Screen.Login.route) {
+                                            inclusive = true
+                                        }
+
+                                    }
+                                }
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(
                             contentColor = Color.White,
@@ -290,10 +309,4 @@ fun LoginScreen() {
         }
     }
 
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewLoginScreen() {
-    LoginScreen()
 }
