@@ -8,10 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.nqmgaming.kotlin.lab6.cinema.Screen
-import com.nqmgaming.kotlin.lab6.cinema.ui.screens.confirm.ConfirmationScreen
-import com.nqmgaming.kotlin.lab6.cinema.ui.screens.login.LoginScreen
-import com.nqmgaming.kotlin.lab6.cinema.ui.screens.ticket.BookTicketScreen
-import com.nqmgaming.kotlin.lab6.cinema.ui.screens.movie.MovieScreen
+import com.nqmgaming.kotlin.lab6.cinema.presentation.screens.confirm.ConfirmationScreen
+import com.nqmgaming.kotlin.lab6.cinema.presentation.screens.login.LoginScreen
+import com.nqmgaming.kotlin.lab6.cinema.presentation.screens.ticket.BookTicketScreen
+import com.nqmgaming.kotlin.lab6.cinema.presentation.screens.movie.MovieScreen
 import com.nqmgaming.kotlin.ui.theme.KotlinTheme
 
 class MainActivity : ComponentActivity() {

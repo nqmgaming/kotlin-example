@@ -1,4 +1,4 @@
-package com.nqmgaming.kotlin.lab6.cinema.ui.screens.confirm
+package com.nqmgaming.kotlin.lab6.cinema.presentation.screens.confirm
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

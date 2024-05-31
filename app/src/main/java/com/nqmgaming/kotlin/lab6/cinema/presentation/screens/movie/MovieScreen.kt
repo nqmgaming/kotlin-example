@@ -1,6 +1,5 @@
-package com.nqmgaming.kotlin.lab6.cinema.ui.screens.movie
+package com.nqmgaming.kotlin.lab6.cinema.presentation.screens.movie
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,20 +44,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.nqmgaming.kotlin.lab6.cinema.Screen
-import com.nqmgaming.kotlin.lab6.cinema.model.entities.movie.Movie
-import com.nqmgaming.kotlin.lab6.cinema.model.entities.movie.getListMovies
+import com.nqmgaming.kotlin.lab6.cinema.domain.entities.movie.Movie
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

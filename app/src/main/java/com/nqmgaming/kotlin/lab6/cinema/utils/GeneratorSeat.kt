@@ -1,7 +1,7 @@
 package com.nqmgaming.kotlin.lab6.cinema.utils
 
-import com.nqmgaming.kotlin.lab6.cinema.model.entities.seat.Seat
-import com.nqmgaming.kotlin.lab6.cinema.model.entities.seat.SeatStatus
+import com.nqmgaming.kotlin.lab6.cinema.domain.entities.seat.Seat
+import com.nqmgaming.kotlin.lab6.cinema.domain.entities.seat.SeatStatus
 import kotlin.random.Random
 
 object GeneratorSeat {

@@ -1,4 +1,4 @@
-package com.nqmgaming.kotlin.lab6.cinema.model.entities.movie
+package com.nqmgaming.kotlin.lab6.cinema.domain.entities.movie
 
 data class Movie(
     val title: String = "",

@@ -1,4 +1,4 @@
-package com.nqmgaming.kotlin.lab6.cinema.ui.screens.ticket
+package com.nqmgaming.kotlin.lab6.cinema.presentation.screens.ticket
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -22,14 +22,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.nqmgaming.kotlin.R
 import com.nqmgaming.kotlin.lab6.cinema.Screen
-import com.nqmgaming.kotlin.lab6.cinema.model.entities.seat.Seat
-import com.nqmgaming.kotlin.lab6.cinema.model.entities.seat.SeatStatus
-import com.nqmgaming.kotlin.lab6.cinema.ui.components.SeatComposable
+import com.nqmgaming.kotlin.lab6.cinema.domain.entities.seat.Seat
+import com.nqmgaming.kotlin.lab6.cinema.domain.entities.seat.SeatStatus
+import com.nqmgaming.kotlin.lab6.cinema.presentation.components.SeatComposable
 import com.nqmgaming.kotlin.lab6.cinema.utils.GeneratorSeat
 
 @Composable

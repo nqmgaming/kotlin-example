@@ -1,4 +1,4 @@
-package com.nqmgaming.kotlin.lab6.cinema.ui.screens.login
+package com.nqmgaming.kotlin.lab6.cinema.presentation.screens.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
