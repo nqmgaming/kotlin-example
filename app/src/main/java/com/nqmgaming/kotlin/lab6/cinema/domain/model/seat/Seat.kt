@@ -1,4 +1,4 @@
-package com.nqmgaming.kotlin.lab6.cinema.domain.entities.seat
+package com.nqmgaming.kotlin.lab6.cinema.domain.model.seat
 
 data class Seat(
     var row: Char = 'A',

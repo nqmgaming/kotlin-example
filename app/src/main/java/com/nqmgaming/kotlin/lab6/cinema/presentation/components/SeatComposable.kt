@@ -21,8 +21,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nqmgaming.kotlin.lab6.cinema.domain.entities.seat.Seat
-import com.nqmgaming.kotlin.lab6.cinema.domain.entities.seat.SeatStatus
+import com.nqmgaming.kotlin.lab6.cinema.domain.model.seat.Seat
+import com.nqmgaming.kotlin.lab6.cinema.domain.model.seat.SeatStatus
 
 @Composable
 fun SeatComposable(

@@ -26,10 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.nqmgaming.kotlin.R
 import com.nqmgaming.kotlin.lab6.cinema.Screen
-import com.nqmgaming.kotlin.lab6.cinema.domain.entities.seat.Seat
-import com.nqmgaming.kotlin.lab6.cinema.domain.entities.seat.SeatStatus
+import com.nqmgaming.kotlin.lab6.cinema.domain.model.seat.Seat
+import com.nqmgaming.kotlin.lab6.cinema.domain.model.seat.SeatStatus
 import com.nqmgaming.kotlin.lab6.cinema.presentation.components.SeatComposable
-import com.nqmgaming.kotlin.lab6.cinema.utils.GeneratorSeat
+import com.nqmgaming.kotlin.lab6.cinema.core.utils.GeneratorSeat
 
 @Composable
 fun BookTicketScreen(

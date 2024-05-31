@@ -1,6 +1,7 @@
-package com.nqmgaming.kotlin.lab6.cinema.domain.entities.movie
+package com.nqmgaming.kotlin.lab6.cinema.domain.model.movie
 
 data class Movie(
+    val filmId: String = "",
     val title: String = "",
     val genre: String = "",
     val rating: Float = 0.0f,

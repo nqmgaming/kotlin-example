@@ -1,10 +1,11 @@
-package com.nqmgaming.kotlin.lab6.cinema.utils
+package com.nqmgaming.kotlin.lab6.cinema.core.utils
 
-import com.nqmgaming.kotlin.lab6.cinema.domain.entities.seat.Seat
-import com.nqmgaming.kotlin.lab6.cinema.domain.entities.seat.SeatStatus
+import com.nqmgaming.kotlin.lab6.cinema.domain.model.seat.Seat
+import com.nqmgaming.kotlin.lab6.cinema.domain.model.seat.SeatStatus
 import kotlin.random.Random
 
 object GeneratorSeat {
+    const val BASE_URL = "https://665a07a4de346625136ed0ba.mockapi.io/api/v1"
     fun createTheaterSeating(
         totalRows: Int,
         totalSeatsPerRow: Int,

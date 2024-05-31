@@ -54,7 +54,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.nqmgaming.kotlin.lab6.cinema.Screen
-import com.nqmgaming.kotlin.lab6.cinema.domain.entities.movie.Movie
+import com.nqmgaming.kotlin.lab6.cinema.domain.model.movie.Movie
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

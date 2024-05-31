@@ -81,6 +81,7 @@ dependencies {
     // Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation (libs.logging.interceptor)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -92,4 +93,9 @@ dependencies {
     implementation(libs.kotlinx.serialization.cbor)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.json.okio)
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+
 }
